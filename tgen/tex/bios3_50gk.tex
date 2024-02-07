@@ -1,0 +1,20 @@
+% Проверка отсутствия несанкционированной выдачи питания на  шины 2-го типа при снятии, подаче питания на БИОС, переключении комплектов, включении и отключении питания остальных потребителей
+
+% Получение статуса шага
+%% set status = h.translate_en_to_ru(e.get_step_status(step))
+
+% Получение максимального значения энергии
+%% set substeps = e.get_substeps(step, 'NumericLimitTest', 'Main')
+
+% Списки значений
+%% set results = []
+%% set status_substep = []
+
+% Вычисление результатов
+%% for step in substeps:
+%% set dump = results.append(e.get_numeric_limit(step))
+%% set dump = status_substep.append(h.translate_en_to_ru(e.get_step_status(step)))
+%% endfor
+
+% Заголовок 
+\multicolumn{1}{|C{\VAR{w4}}|}{\VAR{current_step_name[0]}} & \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{current_step_name[1]}} &  \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status}}} \\

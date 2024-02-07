@@ -1,0 +1,11 @@
+gen_dwnt_xml: Шаблонизатор для АСП БИОС
+"C:\Users\Rongmor\AppData\Local\Programs\Python\Python311\python.exe" "C:\avs\tgen\python\generate_report.py" %.tex %.gen.tex "C:\avs\tgen\in\Main_[24.04.2023][14 40 03].xml"
+
+genlatex_in: Сборка отчетов
+xelatex -interaction=nonstopmode -output-directory="C:\avs\tgen\out" -aux-directory= -job-name=% %.gen.tex
+
+Компилятор по умолчанию:
+txs:///gen_dwnt_xml | txs:///genlatex_in
+
+Файл PDF:
+C:\avs\tgen\out

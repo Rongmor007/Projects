@@ -1,0 +1,27 @@
+% Проверка тракта выдачи напряжения на шины питания потребителей.
+
+% Получение подшагов
+%% set substeps = e.get_substeps(step, 'NumericLimitTest', 'Main')
+
+% Получение статуса шага
+%% set status = h.translate_en_to_ru(e.get_step_status(step))
+
+% Заголовок 
+\multicolumn{1}{|C{\VAR{w4}}|}{\VAR{current_step_name[0]}} & \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{current_step_name[1]}} &  \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status}}} \\
+
+
+
+% Списки для дальнейшего заполнения таблиц
+%% set results = []
+%% set status_substep = []
+%% set names_headers = ['Длительность импульса напряжения', 'Измерено (мс)', 'Допустимое значение (мс)']
+%% set kits = ['Основной комплект', 'Резервный комплект']
+
+% Вычисление результатов
+%% for step in substeps:
+%% set test = e.get_first_attribute(step, 'name')
+%% if test == 'Check Pulse Duration':
+%% set dump = results.append(e.get_numeric_limit(step))
+%% set dump = status_substep.append(h.translate_en_to_ru(e.get_step_status(step)))
+%% endif
+%% endfor

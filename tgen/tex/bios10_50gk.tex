@@ -1,0 +1,58 @@
+% Проверка тока подрыва пиросредств
+
+% получение всех шагов главной последовательности
+%% set substeps = e.get_substeps(step, 'NumericLimitTest', 'Main')
+
+% Списки для дальнейшего заполнения таблицы
+%% set Check_power = []
+%% set Step_name = []
+% set Name_of_sub_step = []
+%% set Status_substep = []
+%% set Low_limits = []
+%% set High_Limits = []
+%% set Limits_check = []
+%% set channels_names = ['K17', 'K18', 'K21', 'K22', 'K23', 'K24']
+
+
+% Получение статуса шага
+%% set status = h.translate_en_to_ru(e.get_step_status(step))
+
+% Заголовок 
+\multicolumn{1}{|C{\VAR{w4}}|}{\VAR{current_step_name[0]}} & \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{current_step_name[1]}} &  \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status}}} \\
+
+
+%% for step in substeps:
+	%% set sub_step_name = e.get_step_name(step)
+	% Подэлементы, формирующие имена проверок
+	%% set child_elem = e.get_child_elements_by_tag_name(step, 'tr:TestResult')	
+	%% set subs = [step]
+	%% set limits = e.get_numeric_limits(subs, (e.get_step_name(step)))
+	% Сортировка подшагов по лимиту
+	%% if limits[0]['units'] == 'Ом':
+		% Список лимитов всех
+		%% set dump = Limits_check.append(limits)
+		% Имя подшага проверки
+		%% set dump = Step_name.append(e.get_step_name(step))
+		% Данные измерения
+		%% set dump = Check_power.append(limits[0]['result'])
+		% Результат проверки
+		%% set dump = Status_substep.append(h.translate_en_to_ru(e.get_step_status(step)))
+		% Начальный лимит
+		% set dump = Low_limits.append(limits[0]['lo'])
+%% endif
+%% endfor
+
+% Разделение на комплекты
+%% set power = h.power_for_kits(Check_power, key=1)
+% Проверка на успешность тестов
+%% set Status_substep = h.status_of_substeps(Status_substep, key = 0)
+
+
+
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{\VAR{w2_3}}|}{Внутреннее сопротивление коммутатора на шине (Ом)} & \multicolumn{1}{C{\VAR{w2}}|}{Осн} & \multicolumn{1}{C{\VAR{w2}}|}{Рез} & \multicolumn{1}{C{\VAR{w4_5}}|}{Допустимое значение (Ом)} & \tabularnewline
+
+%% for step in range(Check_power |length // 2 )
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{\VAR{w2_3}}|}{\VAR{channels_names[step]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{power[0][step]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{power[1][step]}} & \multicolumn{1}{C{\VAR{w4_5}}|}{0 ÷ \VAR{Limits_check[0][0]['lo']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{Status_substep[step]}}} \tabularnewline
+%% endfor

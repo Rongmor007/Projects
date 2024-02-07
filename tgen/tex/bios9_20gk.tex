@@ -1,0 +1,33 @@
+% Проверка работоспособности БИОС при плавном изменении
+
+% получение всех шагов главной последовательности
+%% set substeps = e.get_elements('tr:TestGroup/tr:SessionAction', step)
+
+% Получение статуса шага
+%% set status = h.translate_en_to_ru(e.get_step_status(step))
+
+% Заголовок 
+\multicolumn{1}{|C{\VAR{w4}}|}{\VAR{current_step_name[0]}} & \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{current_step_name[1]}} &  \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status}}} \\
+
+
+% Списки с данными для дальнейшей заполнения таблицы
+%% set names_of_measure = ['Измерено (с)', 'Допустимое значение (с)']
+%% set names_of_limits = ['Время готовности']
+% Лимит задается вручную, обратить внимание
+%% set limits_check = ['0 ÷ 5']
+
+% Получение значений
+%% set time = e.get_prop(substeps, 'Ready Time Logging', 'Время готовности БИОС')
+
+% Получение статуса подшагов
+%% set temp_status = e.get_step_status(step)
+%% set status_substep = h.status_of_substeps([temp_status], key=0)
+\hhline{~|--|--|--|-}
+& \multicolumn{2}{C{\VAR{w2_3}}|}{} & \multicolumn{1}{C{\VAR{w6_7}}|}{\VAR{names_of_measure[0]}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{names_of_measure[1]}} & \tabularnewline
+
+% Начало компиляции проверок
+\hhline{~|--|--|--|-}
+& \multicolumn{2}{C{\VAR{w2_3}}|}{\VAR{names_of_limits[0]}} & \multicolumn{1}{C{\VAR{w6_7}}|}{\VAR{time[0]}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{limits_check[0]}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0]}}}
+
+
+

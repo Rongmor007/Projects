@@ -1,0 +1,98 @@
+% Проверка информационной линии CAN.
+
+\begin{longtable}{|C{11mm}|C{28mm}|C{25mm}|*{2}{C{15mm}|}C{14mm}|C{19mm}|C{29mm}|}
+	\caption{} \\ % Делаемглавную шапку таблицы. Она будет одна и не должна повторяться
+	\hline
+	\multicolumn{1}{|C{\VAR{w4}}|}{№} & \multicolumn{6}{C{\VAR{w2_7}}|}{Проверка} & \multicolumn{1}{C{\VAR{w3}}|}{Результат} \\
+	\hline
+	\endfirsthead
+	\multicolumn{8}{l} % объединение колонок
+	{\tablename\ \thetable\ -- \textit{Перенос с предыдущей страницы}} \\
+	\hline
+	\multicolumn{1}{|C{\VAR{w4}}|}{№} & \multicolumn{6}{C{\VAR{w2_7}}|}{Проверка} & \multicolumn{1}{C{\VAR{w3}}|}{Результат} \\ 
+	\hline % Название колонок таблицы на каждой новой странице
+	\endhead
+	\hline % Линия в конце страницы под таблицей
+	\multicolumn{8}{r}{\textit{Продолжение на следующей странице}} \\ % Подпись таблицы (справа в данном случае, т.к. {r}) в конце каждой страницы 
+	\endfoot % окончание каждой страницы кроме последней
+	\hline
+	\endlastfoot % окончание последней страницы
+	
+	% получение всех шагов главной последовательности
+	%% set substeps = e.get_substeps(step, 'NumericLimitTest', 'Main')
+	
+	% Получение статуса шага
+	%% set status = h.translate_en_to_ru(e.get_step_status(step))
+	
+	% Заголовок 
+	\multicolumn{1}{|C{\VAR{w4}}|}{\VAR{current_step_name[0]}} & \multicolumn{6}{C{\VAR{w2_7}}|}{\VAR{current_step_name[1]}} &  \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status}}} \\
+		
+	% Списки для дальнейшего заполнения таблицы
+	%% set names_of_headers = ['Измер.', 'Допуск']
+	%% set names = ['Рецессивный (В)', 'Доминантный (В)', 'Длительность (мс)']
+	%% set lines = ['Can 1', 'Can 2']
+	%% set kits = ['Основной комплект', 'Резервный комплект']
+	
+	% Списки с результатами
+	%% set results = []
+	%% set status_substep = []
+	
+	% Вычисление результатов для цепей комплектных
+	%% for step in substeps:
+	%% set dump = results.append(e.get_numeric_limit(step))
+	%% set temp_status = e.get_step_status(step)
+	%% set dump = status_substep.append(temp_status)
+	%% endfor
+	
+	% Вычисление результатов
+	%% set status_substep = h.status_of_substeps(status_substep, key = 0)
+	
+	% Разбивание на 2 комплекта
+	%% set results = h.power_for_kits(results, key = 1)
+	%% set status_substep = h.power_for_kits(status_substep, key=1)
+	
+	% Шапка
+	\hhline{~|--|--|--|-}
+	& \multicolumn{4}{|C{99.5mm}|}{} & \multicolumn{1}{C{13.5mm}|}{\VAR{names_of_headers[0]}} & \multicolumn{1}{C{18mm}|}{\VAR{names_of_headers[1]}} & \multicolumn{1}{C{\VAR{w3}}|}{} \tabularnewline
+	
+	% Can 1 Основной комплект
+	\hhline{~|--|--|--|-}
+	& \multirow{6}{15mm}{\VAR{kits[0]}} & \multirow{3}{10mm}{\VAR{lines[0]}} & \multicolumn{2}{C{\VAR{w4_5}}|}{\VAR{names[0]}} & \multicolumn{1}{C{13.5mm}|}{\VAR{results[0][0]['result']}} & \multicolumn{1}{C{18mm}|}{\VAR{results[0][0]['lo']} ÷ \VAR{results[0][0]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0][0]}}} \tabularnewline
+	
+	\hhline{~|~~|--|--|-}
+	& \multicolumn{1}{|C{25mm}|}{} & \multicolumn{1}{C{15mm}|}{} & \multicolumn{2}{C{\VAR{w4_5}}|}{\VAR{names[1]}} & \multicolumn{1}{C{13.5mm}|}{\VAR{results[0][1]['result']}} & \multicolumn{1}{C{18mm}|}{\VAR{results[0][1]['lo']} ÷ \VAR{results[0][1]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0][1]}}} \tabularnewline
+	
+	\hhline{~|~~|--|--|-}
+	& \multicolumn{1}{|C{25mm}|}{} & \multicolumn{1}{C{15mm}|}{} & \multicolumn{2}{C{\VAR{w4_5}}|}{\VAR{names[2]}} & \multicolumn{1}{C{13.5mm}|}{\VAR{results[0][2]['result']}} & \multicolumn{1}{C{18mm}|}{\VAR{results[0][2]['lo']} ÷ \VAR{results[0][2]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0][2]}}} \tabularnewline
+	
+	% Can 2 Основной комплект
+	\hhline{~|~-|--|--|-}
+	& \multicolumn{1}{|C{25mm}|}{} & \multirow{3}{10mm}{\VAR{lines[1]}} & \multicolumn{2}{C{\VAR{w4_5}}|}{\VAR{names[0]}} & \multicolumn{1}{C{13.5mm}|}{\VAR{results[0][3]['result']}} & \multicolumn{1}{C{18mm}|}{\VAR{results[0][3]['lo']} ÷ \VAR{results[0][3]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0][3]}}} \tabularnewline
+	
+	\hhline{~|~~|--|--|-}
+	& \multicolumn{1}{|C{25mm}|}{} & \multicolumn{1}{C{15mm}|}{} & \multicolumn{2}{C{\VAR{w4_5}}|}{\VAR{names[1]}} & \multicolumn{1}{C{13.5mm}|}{\VAR{results[0][4]['result']}} & \multicolumn{1}{C{18mm}|}{\VAR{results[0][4]['lo']} ÷ \VAR{results[0][4]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0][4]}}} \tabularnewline
+	
+	\hhline{~|~~|--|--|-}
+	& \multicolumn{1}{|C{25mm}|}{} & \multicolumn{1}{C{15mm}|}{} & \multicolumn{2}{C{\VAR{w4_5}}|}{\VAR{names[2]}} & \multicolumn{1}{C{13.5mm}|}{\VAR{results[0][5]['result']}} & \multicolumn{1}{C{18mm}|}{\VAR{results[0][5]['lo']} ÷ \VAR{results[0][5]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0][5]}}} \tabularnewline
+	
+	% Can 1 Резервный комплект
+	\hhline{~|--|--|--|-}
+	& \multirow{6}{15mm}{\VAR{kits[1]}} & \multirow{3}{10mm}{\VAR{lines[0]}} & \multicolumn{2}{C{\VAR{w4_5}}|}{\VAR{names[0]}} & \multicolumn{1}{C{13.5mm}|}{\VAR{results[1][0]['result']}} & \multicolumn{1}{C{18mm}|}{\VAR{results[1][0]['lo']} ÷ \VAR{results[1][0]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[1][0]}}} \tabularnewline
+	
+	\hhline{~|~~|--|--|-}
+	& \multicolumn{1}{|C{25mm}|}{} & \multicolumn{1}{C{15mm}|}{} & \multicolumn{2}{C{\VAR{w4_5}}|}{\VAR{names[1]}} & \multicolumn{1}{C{13.5mm}|}{\VAR{results[1][1]['result']}} & \multicolumn{1}{C{18mm}|}{\VAR{results[1][1]['lo']} ÷ \VAR{results[1][1]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[1][1]}}} \tabularnewline
+	
+	\hhline{~|~~|--|--|-}
+	& \multicolumn{1}{|C{25mm}|}{} & \multicolumn{1}{C{15mm}|}{} & \multicolumn{2}{C{\VAR{w4_5}}|}{\VAR{names[2]}} & \multicolumn{1}{C{13.5mm}|}{\VAR{results[1][2]['result']}} & \multicolumn{1}{C{18mm}|}{\VAR{results[1][2]['lo']} ÷ \VAR{results[1][2]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[1][2]}}} \tabularnewline
+	
+	% Can 2 Резервный комплект
+	\hhline{~|~-|--|--|-}
+	& \multicolumn{1}{|C{25mm}|}{} & \multirow{3}{10mm}{\VAR{lines[1]}} & \multicolumn{2}{C{\VAR{w4_5}}|}{\VAR{names[0]}} & \multicolumn{1}{C{13.5mm}|}{\VAR{results[1][3]['result']}} & \multicolumn{1}{C{18mm}|}{\VAR{results[1][3]['lo']} ÷ \VAR{results[1][3]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[1][3]}}} \tabularnewline
+	
+	\hhline{~|~~|--|--|-}
+	& \multicolumn{1}{|C{25mm}|}{} & \multicolumn{1}{C{15mm}|}{} & \multicolumn{2}{C{\VAR{w4_5}}|}{\VAR{names[1]}} & \multicolumn{1}{C{13.5mm}|}{\VAR{results[1][4]['result']}} & \multicolumn{1}{C{18mm}|}{\VAR{results[1][4]['lo']} ÷ \VAR{results[1][4]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[1][4]}}} \tabularnewline
+	
+	\hhline{~|~~|--|--|-}
+	& \multicolumn{1}{|C{25mm}|}{} & \multicolumn{1}{C{15mm}|}{} & \multicolumn{2}{C{\VAR{w4_5}}|}{\VAR{names[2]}} & \multicolumn{1}{C{13.5mm}|}{\VAR{results[1][5]['result']}} & \multicolumn{1}{C{18mm}|}{\VAR{results[1][5]['lo']} ÷ \VAR{results[1][5]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[1][5]}}} \tabularnewline
+
+\end{longtable}

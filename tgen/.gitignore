@@ -1,0 +1,5 @@
+# Добавлен в игнор __pycache__
+tex/KPA.aux
+tex/KPA.log
+python/__pycache__
+out/

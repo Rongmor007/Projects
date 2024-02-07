@@ -1,0 +1,40 @@
+% Проверка тока обтекания пиросредств
+
+% получение всех шагов главной последовательности
+%% set substeps = e.get_substeps(step, 'NumericLimitTest', 'Main')
+
+% Получение статуса шага
+%% set status = h.translate_en_to_ru(e.get_step_status(step))
+
+% Заголовок 
+\multicolumn{1}{|C{\VAR{w4}}|}{\VAR{current_step_name[0]}} & \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{current_step_name[1]}} &  \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status}}} \\
+
+% prec - сколько знаков после запятой оставить
+%% set prec = 4
+%% set len_of_rows = [2]
+%% set len = len_of_rows|length
+
+% Списки для заполнения таблицы
+%% set Max_amp = []
+%% set lo_limit = []
+%% set Status_substep = []
+
+%% for step in substeps
+%% set subs = [step]
+% Лимиты и текущие значения
+%% set limits = e.get_numeric_limits(subs, (e.get_step_name(step)))
+% Высчитываем максимальный лимит
+%% set dump = lo_limit.append(limits[0]['lo'])
+% Высчитываем максимальный ток
+%% set dump = Max_amp.append(limits[0]['result'])
+%% set dump = Status_substep.append(e.get_step_status(step))
+%% endfor
+% Максимальное значение 
+%% set max_amper = Max_amp | max
+
+% Проверка на успешность тестов
+%% set Status_substep = h.status_of_substeps(Status_substep)
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{\VAR{w2_3}}|}{\multirow{3}{50mm}{\centering Максимальный ток обтекания ПС}} & \multicolumn{2}{C{\VAR{w6_7}}|}{Измерено (мА)} & \multicolumn{1}{C{\VAR{w3_6}}|}{Допустимое значение (мА)} & \tabularnewline \hhline{~|~~|--|--|-}
+
+& \multicolumn{1}{C{\VAR{w2_3}}|}{} & \multicolumn{2}{C{\VAR{w6_7}}|}{\VAR{max_amper}} &  \multicolumn{1}{C{\VAR{w3_6}}|}{<= \VAR{lo_limit[0]}} & \multicolumn{1}{C{25.06mm}|}{\textbf{\VAR{Status_substep}}} 

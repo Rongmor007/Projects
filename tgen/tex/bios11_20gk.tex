@@ -1,0 +1,59 @@
+% Проверка длительности фронта нарастания напряжения на шинах 3-го типа и частоты коммутации шины питания 2-го типа
+
+% получение всех шагов главной последовательности
+%% set substeps = e.get_substeps(step, 'NumericLimitTest', 'Main')
+
+% Списки для дальнейшего заполнения таблицы
+%% set Check_power = []
+%% set Step_name = []
+%% set Status_substep = []
+%% set Status_substep2 = []
+%% set Low_limits = []
+%% set Units_limits = []
+%% set Name_of_sub_step = []
+%% set kits = ['Основной комплект', 'Резервный комплект']
+%% set heads = ['Длительность фронта нарастания', 'Осн', 'Рез', 'Допустимое значение', 'Макс.длительность фронта']
+%% set channels = ['K17', 'K18', 'K19', 'K20', 'K21', 'K22', 'K23']
+
+
+% Получение статуса шага
+%% set status = h.translate_en_to_ru(e.get_step_status(step))
+
+% Заголовок 
+\multicolumn{1}{|C{\VAR{w4}}|}{\VAR{current_step_name[0]}} & \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{current_step_name[1]}} &  \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status}}} \\
+
+
+%% for step in substeps
+%% set sub_step_name = e.get_step_name(step)
+%% set child_elem = e.get_child_elements_by_tag_name(step, 'tr:TestResult')
+%% set subs = [step]
+%% set limits = e.get_numeric_limits(subs, (e.get_step_name(step)))
+%% set dump = Name_of_sub_step.append(e.get_step_name(step))
+%% set dump = Step_name.append(e.get_step_name(step))
+% Данные измерения
+%% set dump = Check_power.append(limits[0]['result'])
+% Результат проверки
+%% set dump = Status_substep.append(e.get_step_status(step))
+%% set dump = Low_limits.append(limits[0]['lo'])
+%% set dump = Units_limits.append(limits[0]['units'])
+%% endfor
+%% set maximum = Check_power | max
+
+% Проверка на успешность тестов
+% Для 2-й проверки
+%% set Status_substep2 =  h.status_of_substeps(Status_substep)
+% Для 1-й проверки
+%% set Status_substep =  h.status_of_substeps(Status_substep, key=0)
+%% set Status_substep = h.power_for_kits(Status_substep)
+
+%% set len_step_name = Step_name | length
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{\VAR{w2_3}}|}{\VAR{heads[0]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{heads[1]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{heads[2]}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{heads[3]} (мкс)} & \tabularnewline \hhline{~|--|--|--|-}
+
+%% for step in range((Check_power | length) // 2):
+& \multicolumn{1}{C{\VAR{w2_3}}|}{\VAR{channels[step]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{Check_power[step]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{Check_power[-step - 1]}} & \multicolumn{1}{C{\VAR{w4_5}}|}{<= \VAR{Low_limits[0]}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{Status_substep[0][step]} \\ \VAR{Status_substep[1][- step - 1]}}} \tabularnewline \hhline{~|--|--|--|-}
+%% endfor
+
+&  & \multicolumn{2}{C{\VAR{w4_5}}|}{Измерено (\VAR{Units_limits[0]})} & \multicolumn{1}{C{\VAR{w4_5}}|}{Допустимое значение (\VAR{Units_limits[0]})} & \tabularnewline \hhline{~|--|--|--|-}
+
+& \multicolumn{1}{C{\VAR{w2_3}}|}{\VAR{heads[4]}} & \multicolumn{2}{C{\VAR{w4_5}}|}{\VAR{maximum}} & \multicolumn{1}{C{\VAR{w4_5}}|}{<= \VAR{Low_limits[0]}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{Status_substep2}}}

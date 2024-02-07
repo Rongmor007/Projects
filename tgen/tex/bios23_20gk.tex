@@ -1,0 +1,100 @@
+% Проверка загрузочного ПО БИОС
+
+% Получение подшагов последовательности
+%% set substeps = e.get_substeps(step, 'NumericLimitTest', 'Main')
+
+% Получение статуса шага
+%% set status = h.translate_en_to_ru(e.get_step_status(step))
+
+% Заголовок 
+\multicolumn{1}{|C{\VAR{w4}}|}{\VAR{current_step_name[0]}} & \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{current_step_name[1]}} &  \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status}}} \\
+
+% Списки для заполнения таблицы
+%% set results = []
+%% set status_substep = []
+%% set kits = ['Основной комплект', 'Резервный комплект']
+%% set names_headers = ['Цепь №', 'Измерено', 'Допустимое значение', 'Ед.изм']
+%% set names = ['Напряжение (В)', 'Ток (А)']
+%% set tires = ['Цепь 10', 'Цепь 3', 'Цепь 1', 'Цепь 3 \\ (1W включен)']
+
+% Вычисление результатов
+%% for step in substeps:
+%% set dump = results.append(e.get_numeric_limit(step))
+%% set temp_status = e.get_step_status(step)
+%% set dump = status_substep.append(temp_status)
+%% endfor
+
+% Перевод статусов
+%% set status_substep = h.status_of_substeps(status_substep, key = 0)
+
+% Разбитие по комплектам
+%% set results = h.power_for_kits(results, key = 1)
+%% set status_substep = h.power_for_kits(status_substep, key=1)
+
+% Шапка
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{45mm}|}{\VAR{names_headers[0]}} & \multicolumn{1}{C{29mm}|}{\VAR{names_headers[3]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{names_headers[1]}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{names_headers[2]}} & \tabularnewline
+
+% Основной комплект
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{45mm}|}{} & \multicolumn{3}{C{85mm}|}{\VAR{kits[0]}} & \tabularnewline
+
+% Цепь 10
+% Напряжение
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{45mm}|}{\VAR{tires[0]}} & \multicolumn{1}{C{29mm}|}{\VAR{names[0]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[0][0]['result']}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{results[0][0]['lo']} ÷ \VAR{results[0][0]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0][0]}}}\tabularnewline
+
+% Ток
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{45mm}|}{\VAR{tires[0]}} & \multicolumn{1}{C{29mm}|}{\VAR{names[1]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[0][1]['result']}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{results[0][1]['lo']} ÷ \VAR{results[0][1]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0][1]}}} \tabularnewline
+
+% Цепь 3
+% Напряжение
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{45mm}|}{\VAR{tires[1]}} & \multicolumn{1}{C{29mm}|}{\VAR{names[0]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[0][2]['result']}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{results[0][2]['lo']} ÷ \VAR{results[0][2]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0][2]}}}\tabularnewline
+
+% Цепь 1
+% Напряжение
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{45mm}|}{\VAR{tires[2]}} & \multicolumn{1}{C{29mm}|}{\VAR{names[0]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[0][3]['result']}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{results[0][3]['lo']} ÷ \VAR{results[0][3]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0][3]}}}\tabularnewline
+
+% Цепь 3 (1w вкл)
+% Напряжение
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{45mm}|}{\VAR{tires[3]}} & \multicolumn{1}{C{29mm}|}{\VAR{names[0]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[0][4]['result']}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{results[0][4]['lo']} ÷ \VAR{results[0][4]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0][4]}}}\tabularnewline
+
+% Ток
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{45mm}|}{\VAR{tires[3]}} & \multicolumn{1}{C{29mm}|}{\VAR{names[1]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[0][5]['result']}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{results[0][5]['lo']} ÷ \VAR{results[0][5]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0][5]}}}\tabularnewline
+
+% Резервный комплект
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{45mm}|}{} & \multicolumn{3}{C{85mm}|}{\VAR{kits[1]}} & \tabularnewline
+
+% Цепь 10
+% Напряжение
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{45mm}|}{\VAR{tires[0]}} & \multicolumn{1}{C{29mm}|}{\VAR{names[0]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[1][0]['result']}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{results[1][0]['lo']} ÷ \VAR{results[1][0]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[1][0]}}}\tabularnewline
+
+% Ток
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{45mm}|}{\VAR{tires[0]}} & \multicolumn{1}{C{29mm}|}{\VAR{names[1]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[1][1]['result']}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{results[1][1]['lo']} ÷ \VAR{results[1][1]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[1][1]}}} \tabularnewline
+
+% Цепь 3
+% Напряжение
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{45mm}|}{\VAR{tires[1]}} & \multicolumn{1}{C{29mm}|}{\VAR{names[0]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[1][2]['result']}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{results[1][2]['lo']} ÷ \VAR{results[1][2]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[1][2]}}}\tabularnewline
+
+% Цепь 1
+% Напряжение
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{45mm}|}{\VAR{tires[2]}} & \multicolumn{1}{C{29mm}|}{\VAR{names[0]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[1][3]['result']}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{results[1][3]['lo']} ÷ \VAR{results[1][3]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[1][3]}}}\tabularnewline
+
+% Цепь 3 (1w вкл)
+% Напряжение
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{45mm}|}{\VAR{tires[3]}} & \multicolumn{1}{C{29mm}|}{\VAR{names[0]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[1][4]['result']}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{results[1][4]['lo']} ÷ \VAR{results[1][4]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[1][4]}}}\tabularnewline
+
+% Ток
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{45mm}|}{\VAR{tires[3]}} & \multicolumn{1}{C{29mm}|}{\VAR{names[1]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[1][5]['result']}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{results[1][5]['lo']} ÷ \VAR{results[1][5]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[1][5]}}}\tabularnewline

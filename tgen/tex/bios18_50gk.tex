@@ -1,0 +1,50 @@
+% Проверка приема ИСС (импульсов секундной синхронизации) и режима выдачи 1С (секундной метки).
+
+% получение всех шагов главной последовательности
+%% set substeps = e.get_substeps(step, 'NumericLimitTest', 'Main')
+
+% Получение статуса шага
+%% set status = h.translate_en_to_ru(e.get_step_status(step))
+
+% Заголовок 
+\multicolumn{1}{|C{\VAR{w4}}|}{\VAR{current_step_name[0]}} & \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{current_step_name[1]}} &  \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status}}} \\
+
+% Списки для дальнейшего заполнения таблицы
+%% set names_of_headers = ['Осн.', 'Рез.' ,'Допустимое значение']
+%% set names = ['Амплитуда импульсов (В)', 'Длительность импульсов (мс)']
+
+
+% Списки с результатами
+%% set results = []
+%% set status_substep = []
+
+% Вычисление результатов для цепей комплектных
+%% for step in substeps:
+%% set dump = results.append(e.get_numeric_limit(step))
+%% set temp_status = e.get_step_status(step)
+%% set dump = status_substep.append(temp_status)
+%% endfor
+
+% Вычисление результатов
+%% set status_substep = h.status_of_substeps(status_substep, key = 0)
+
+% Разбивание на 2 канала
+%% set results = h.power_for_kits(results, key = 1)
+%% set status_substep = h.power_for_kits(status_substep, key=1)
+
+% Вычисление статуса для 2-х сразу каналов
+%% set amplitude = h.status_of_substeps(status_substep[0], key = 1)
+%% set duration = h.status_of_substeps(status_substep[0], key = 1)
+
+% Шапка тестов
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{58mm}|}{} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{names_of_headers[0]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{names_of_headers[1]}} & \multicolumn{1}{C{35mm}|}{\VAR{names_of_headers[2]}} & \tabularnewline
+
+% Амплитуда импульсов (В)
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{\VAR{w2_3}}|}{\VAR{names[0]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[0][0]['result']}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[1][0]['result']}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{results[0][0]['lo']} =>} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{amplitude}}} \tabularnewline
+
+% Длительность фронта нарастания на шине (мкс)
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{\VAR{w2_3}}|}{\VAR{names[1]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[0][1]['result']}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[1][1]['result']}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{results[0][1]['lo']} ÷ \VAR{results[0][1]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{duration}}} \tabularnewline
+

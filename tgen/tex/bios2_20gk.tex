@@ -1,0 +1,43 @@
+% Проверка работоспособности БИОС при плавном изменении
+
+% получение всех шагов главной последовательности
+%% set substeps = e.get_substeps(step, 'AdditionalResults', 'Main')
+
+% Получение статуса шага
+%% set status = h.translate_en_to_ru(e.get_step_status(step))
+
+% Заголовок 
+\multicolumn{1}{|C{\VAR{w4}}|}{\VAR{current_step_name[0]}} & \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{current_step_name[1]}} &  \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status}}} \\
+
+
+% Списки с данными для дальнейшей заполнения таблицы
+%% set names_of_measure = ['Измерено (В)', 'Допустимое значение (В)']
+%% set names_of_limits = ['Порог отключения первой шины', 'Порог отключения телеметрии', 'Порог включения телеметрии']
+% Лимит задается вручную, обратить внимание
+%% set limits_check = ['0 ÷ 10']
+%% set status_substep = []
+%% set temp_status = []
+
+% Получение значений
+%% set WrSrcVlt = e.get_prop(substeps, 'Write Source Voltage', 'Напряжение')
+%% set substep_status = e.get_element_by_name(necessary_name='Write Source Voltage', list_of_elements=substeps, isNeedOneElement=False, isUsingPath=False)
+
+% Получение статуса подшагов
+%% for step in substep_status:
+%% set dump = temp_status.append(e.get_step_status(step))
+%% endfor
+
+%% set status_substep = h.status_of_substeps(temp_status, key=0)
+\hhline{~|--|--|--|-}
+& \multicolumn{2}{C{\VAR{w2_3}}|}{} & \multicolumn{1}{C{\VAR{w6_7}}|}{\VAR{names_of_measure[0]}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{names_of_measure[1]}} & \tabularnewline
+
+% Начало компиляции проверок
+%% for step in range(WrSrcVlt | length):
+\hhline{~|--|--|--|-}
+& \multicolumn{2}{C{\VAR{w2_3}}|}{\VAR{names_of_limits[step]}} & \multicolumn{1}{C{\VAR{w6_7}}|}{\VAR{WrSrcVlt[step]}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{limits_check[0]}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[step]}}} \tabularnewline
+%% endfor
+
+
+
+
+

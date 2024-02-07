@@ -1,0 +1,216 @@
+% Проверка потребления БИОС при включенной максимально допустимой нагрузке, предельно допустимого тока в цепи питания потребителя, максимально допустимого тока в цепи первичного питания, и погрешности определения тока на шинах питания
+
+%% set substeps = e.get_substeps(step, 'NumericLimitTest', 'Main')
+
+% Подшаги для максимального процента
+%% set substeps2 = e.get_substeps(step, 'AdditionalResults', 'Main')
+
+% Получение статуса шага
+%% set status = h.translate_en_to_ru(e.get_step_status(step))
+
+% Заголовок 
+\multicolumn{1}{|C{\VAR{w4}}|}{\VAR{current_step_name[0]}} & \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{current_step_name[1]}} &  \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status}}} \\
+
+% Общее потребление БИОС
+%% set summary_power_bios = []
+%% set summary_power_limits_lo_bios = []
+%% set summary_power_limits_hi_bios = []
+%% set summary_power_status_bios = []
+
+% Потребление БИОС при макс. нагрузке
+%% set check_summary_power_bios = []
+%% set check_summary_high_limit_bios = []
+%% set check_summary_low_limit_bios = []
+%% set check_summary_status_bios = []
+
+% Точность измерения тока при равномерной нагрузке
+%% set limits_check_evenly = []
+%% set step_name_evenly = []
+%% set check_power_evenly = []
+%% set status_substep_evenly = []
+%% set low_limits_evenly = []
+%% set hi_limits_evenly = []
+%% set fall_channel_evenly = []
+
+% Точность измерения тока при максимальной нагрузке
+%% set check_power_max = []
+%% set status_substep_max = []
+%% set fall_channel_max = []
+
+%% set names_of_limits = ['Check Summary Power', 'Check LoadLine Current with TM Values', 'Check LoadLine Current With DWNT TM Values','DMM Measure']
+% Списки для заполнения таблиц
+%% set kits = ['Основной комплект', 'Резервный комплект']
+%% set names_of_headers = ['Общее потребление БИОС', 'Потребление БИОС при максимальной нагрузке на каналы', 'Точность измерения тока на шинах питания при максимальной нагрузке на шине', 'Точность измерения тока на шинах питания при равномерно распределенной по каналам допустимой нагрузке']
+%% set names_of_headers2 = ['Максимальный процент по всем линиям при проверке 15,5 А на все линии', 'Максимальный процент по всем линиям при проверке 4 А на 4 линии', 'Максимальный процент по всем линиям при проверке 4 А на 4 линии']
+%% set range_of_channels = ['К1-4', 'К5-8', 'К9-12', 'К13-16', 'К17-20', 'К21-24', 'К25-26']
+%% set channel = ['K']
+
+% Вычисление результатов
+%% for step in substeps
+%% set sub_step_name = e.get_step_name(step)
+%% set subs = [step]
+
+
+% Общее потребление БИОС
+%% if sub_step_name == names_of_limits[0] and e.get_value_of_attribute_by_parent_node_and_internal_path(step, 'tr:Extension/ts:TSStepProperties/ts:BlockLevel', 'value') == '1':
+%% set limits = e.get_numeric_limits(subs, (e.get_step_name(step)))
+%% set dump = summary_power_bios.append(limits[0]['result'])
+%% set dump = summary_power_limits_lo_bios.append(limits[0]['lo'])
+%% set dump = summary_power_limits_hi_bios.append(limits[0]['hi'])
+%% set dump = summary_power_status_bios.append(e.get_step_status(step))
+%% endif
+
+% Потребление БИОС при макс. нагрузке
+%% if sub_step_name == names_of_limits[0] and e.get_value_of_attribute_by_parent_node_and_internal_path(step, 'tr:Extension/ts:TSStepProperties/ts:BlockLevel', 'value') == '2'
+%% set limits = e.get_numeric_limits(subs, (e.get_step_name(step)))
+%% set dump = check_summary_power_bios.append(limits[0]['result'])
+%% set dump = check_summary_high_limit_bios.append(limits[0]['hi'])
+%% set dump = check_summary_low_limit_bios.append(limits[0]['lo'])
+%% set dump = check_summary_status_bios.append(e.get_step_status(step))
+%% endif
+
+% Точность измерения тока при равномерной нагрузке
+%% if sub_step_name == names_of_limits[1] and e.get_value_of_attribute_by_parent_node_and_internal_path(step, 'tr:Extension/ts:TSStepProperties/ts:BlockLevel', 'value') == '2'
+%% set limits = e.get_numeric_limits(subs, (e.get_step_name(step)))
+%% set dump = check_power_evenly.append(limits[0]['result'])
+%% set dump = status_substep_evenly.append(e.get_step_status(step))
+%% set dump = low_limits_evenly.append(limits[0]['lo'])
+%% set dump = hi_limits_evenly.append(limits[0]['hi'])
+%% endif
+% Падения на каналах для точности измерения тока при равномерной нагрузке
+%% if sub_step_name == names_of_limits[3] and e.get_value_of_attribute_by_parent_node_and_internal_path(step, 'tr:Extension/ts:TSStepProperties/ts:BlockLevel', 'value') == '2'
+%% set test_result_evenly = e.get_child_elements_by_tag_name(step, 'tr:TestResult')
+%% set dump = fall_channel_evenly.append(e.get_prop_of_numeric_limit_without_name(step, test_result_evenly[1]))
+%% endif
+
+% Точность измерения тока при максимальной нагрузке
+%% if sub_step_name == names_of_limits[2] and e.get_value_of_attribute_by_parent_node_and_internal_path(step, 'tr:Extension/ts:TSStepProperties/ts:BlockLevel', 'value') == '3'
+%% set limits = e.get_numeric_limits(subs, (e.get_step_name(step)))
+%% set dump = check_power_max.append(limits[0]['result'])
+%% set dump = status_substep_max.append(e.get_step_status(step))
+%% endif
+% Падения на каналах для точности измерения тока при максимальной нагрузке
+%% if sub_step_name == names_of_limits[3] and e.get_value_of_attribute_by_parent_node_and_internal_path(step, 'tr:Extension/ts:TSStepProperties/ts:BlockLevel', 'value') == '3'
+%% set test_result_max = e.get_child_elements_by_tag_name(step, 'tr:TestResult')
+%% set dump = fall_channel_max.append(e.get_prop_of_numeric_limit_without_name(step, test_result_max[1]))
+%% endif
+
+%% endfor
+
+% Значения максимального процента по всем линиям
+%% set max_proc_result= e.get_prop(substeps2, 'Output Max Procent', 'c:Value', key = 1)
+
+% Телеметрия при равномерной нагрузке
+%% set telemetry_evenly = h.telemetry(check_power_evenly, fall_channel_evenly)
+% Телеметрия при максимальной нагрузке
+%% set telemetry_max = h.telemetry(check_power_max, fall_channel_max)
+
+% Разбитие результатов проверок
+%% set summary_power_bios = h.power_for_kits(summary_power_bios, key=1)
+%% set check_summary_power_bios = h.power_for_kits(check_summary_power_bios, key=1)
+%% set check_power_evenly = h.power_for_kits(check_power_evenly, key=1)
+%% set check_power_max = h.power_for_kits(check_power_max, key=1)
+%% set fall_channel_evenly = h.power_for_kits(fall_channel_evenly, key=1)
+%% set fall_channel_max = h.power_for_kits(fall_channel_max, key=1)
+%% set telemetry_evenly = h.power_for_kits(telemetry_evenly, key=1)
+%% set telemetry_max = h.power_for_kits(telemetry_max, key=1)
+
+% Перевод проверок
+%% set summary_power_status_bios = h.status_of_substeps(summary_power_status_bios, key=0)
+%% set check_summary_status_bios = h.status_of_substeps(check_summary_status_bios, key=0)
+%% set status_substep_evenly = h.status_of_substeps(status_substep_evenly, key=0)
+%% set status_substep_max = h.status_of_substeps(status_substep_max, key=0)
+
+% Разбитие статусов проверок
+%% set check_summary_status_bios = h.power_for_kits(check_summary_status_bios, key=1)
+%% set status_substep_evenly = h.power_for_kits(status_substep_evenly, key=1)
+%% set status_substep_max = h.power_for_kits(status_substep_max, key=1)
+
+% Шапка таблицы Общее потребление БИОС
+\hhline{~|--|--|--|-}
+& \multicolumn{2}{C{\VAR{w2_3}}|}{Общее потребление БИОС} & \multicolumn{1}{C{\VAR{w6_7}}|}{Измерено (Вт)} & \multicolumn{1}{C{\VAR{w3_6}}|}{Допустимое значение (Вт)} & \tabularnewline \hhline{~|~~|--|--|~}
+
+% Основной комплект
+& \multicolumn{2}{C{\VAR{w2_3}}|}{} & \multicolumn{2}{C{\VAR{w4_7}}|}{\VAR{kits[0]}} & \tabularnewline \hhline{~|~~|--|--|-}
+
+& \multicolumn{2}{C{\VAR{w2_3}}|}{} & \multicolumn{1}{C{\VAR{w6_7}}|}{\VAR{summary_power_bios[0][0]}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{summary_power_limits_lo_bios[0]} ÷ \VAR{summary_power_limits_hi_bios[0]}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{summary_power_status_bios[0]}}} \tabularnewline \hhline{~|~~|--|--|~}
+
+% Резервный комплект
+& \multicolumn{2}{C{\VAR{w2_3}}|}{} & \multicolumn{2}{C{\VAR{w4_7}}|}{\VAR{kits[1]}} & \tabularnewline \hhline{~|~~|--|--|-}
+
+& \multicolumn{2}{C{\VAR{w2_3}}|}{} & \multicolumn{1}{C{\VAR{w6_7}}|}{\VAR{summary_power_bios[1][0]}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{summary_power_limits_lo_bios[1]} ÷ \VAR{summary_power_limits_hi_bios[1]}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{summary_power_status_bios[1]}}} \tabularnewline \hhline{~|--|--|--|~}
+
+% Потребление БИОСА при макс нагрузке на каналы
+& \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{names_of_headers[1]}} & \tabularnewline \hhline{~|--|--|--|~}
+
+% Шапка таблицы
+& \multicolumn{2}{C{\VAR{w2_3}}|}{Нагружаемые каналы} & \multicolumn{1}{C{\VAR{w6_7}}|}{Измерено (Вт)} & \multicolumn{1}{C{\VAR{w3_6}}|}{Допустимое значение (Вт)} & \tabularnewline \hhline{~|--|--|--|~}
+
+% Основной комплект
+& \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{kits[0]}} & \tabularnewline \hhline{~|--|--|--|-}
+
+%% for step in range(check_summary_power_bios[0] | length)
+& \multicolumn{2}{C{\VAR{w2_3}}|}{\VAR{range_of_channels[step]}} & \multicolumn{1}{C{\VAR{w6_7}}|}{\VAR{check_summary_power_bios[0][step]}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{check_summary_low_limit_bios[0]} ÷ {\VAR{check_summary_high_limit_bios[0]}}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{check_summary_status_bios[0][step]}}} \tabularnewline \hhline{~|--|--|--|-}
+%% endfor
+
+% Резервный комплект
+& \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{kits[1]}} & \tabularnewline \hhline{~|--|--|--|-}
+
+%% for step in range(check_summary_power_bios[1] | length)
+& \multicolumn{2}{C{\VAR{w2_3}}|}{\VAR{range_of_channels[step]}} & \multicolumn{1}{C{\VAR{w6_7}}|}{\VAR{check_summary_power_bios[1][step]}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{check_summary_low_limit_bios[0]} ÷ {\VAR{check_summary_high_limit_bios[0]}}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{check_summary_status_bios[0][step]}}} \tabularnewline \hhline{~|--|--|--|-}
+%% endfor
+
+% Точность измерения тока на шинах питания при равномерно распределенной по каналам допустимой нагрузке
+& \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{names_of_headers[3]}} & \tabularnewline \hhline{~|--|--|--|~}
+
+% Шапка
+& \multicolumn{1}{C{\VAR{w2_4}}|}{Канал} & \multicolumn{1}{C{\VAR{w2_4}}|}{Измеренный ток (А)} & \multicolumn{1}{C{\VAR{w4_5}}|}{Ток по телеметрии (А)} & \multicolumn{1}{C{\VAR{w4_5}}|}{Погрешность тока 5\%} & \tabularnewline \hhline{~|--|--|--|~}
+
+% Основной комплект
+& \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{kits[0]}} & \tabularnewline \hhline{~|--|--|--|-}
+
+%% for step in range(check_power_evenly[0] | length)
+& \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{channel[0]}\VAR{step+1}} & \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{check_power_evenly[0][step]}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{telemetry_evenly[0][step]}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{fall_channel_max[0][step]}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep_max[0][step]}}} \tabularnewline \hhline{~|--|--|--|-}
+%% endfor
+
+% Резервный комплект
+& \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{kits[1]}} & \tabularnewline \hhline{~|--|--|--|-}
+
+%% for step in range(check_power_evenly[1] | length)
+& \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{channel[0]}\VAR{step+1}} & \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{check_power_evenly[1][step]}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{telemetry_evenly[0][step]}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{fall_channel_evenly[1][step]}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep_evenly[1][step]}}} \tabularnewline \hhline{~|--|--|--|-} 
+%% endfor
+
+% Максимальный процент по всем линиям при проверке 15,5 А на все линии
+& \multicolumn{3}{C{\VAR{w2_5}}|}{\VAR{names_of_headers2[0]}} & \multicolumn{1}{C{\VAR{w3_6}}|}{Измерено} & \tabularnewline \hhline{~|~~|~-|--|~}
+
+& \multicolumn{3}{C{\VAR{w2_5}}|}{} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{max_proc_result[0]}} & \tabularnewline \hhline{~|--|--|--|~}
+
+% Точность измерения тока на шинах питания при максимальной нагрузке
+& \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{names_of_headers[2]}} & \tabularnewline \hhline{~|--|--|--|~}
+
+% Шапка
+& \multicolumn{1}{C{\VAR{w2_4}}|}{Канал} & \multicolumn{1}{C{\VAR{w2_4}}|}{Измеренный ток (А)} & \multicolumn{1}{C{\VAR{w4_5}}|}{Ток по телеметрии (А)} & \multicolumn{1}{C{\VAR{w4_5}}|}{Погрешность тока 5\%} & \tabularnewline \hhline{~|--|--|--|~}
+
+% Основной комплект
+& \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{kits[0]}} & \tabularnewline \hhline{~|--|--|--|-}
+
+%% for step in range(check_power_max[0] | length)
+& \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{channel[0]}\VAR{step+1}} & \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{check_power_max[0][step]}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{telemetry_max[0][step]}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{fall_channel_max[0][step]}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep_max[0][step]}}} \tabularnewline \hhline{~|--|--|--|-}
+%% endfor
+
+% Максимальный процент по всем линиям при проверке 4 А на 4 линии
+& \multicolumn{3}{C{\VAR{w2_5}}|}{\VAR{names_of_headers2[1]}} & \multicolumn{1}{C{\VAR{w3_6}}|}{Измерено} & \tabularnewline \hhline{~|~~|~-|--|~}
+
+& \multicolumn{3}{C{\VAR{w2_5}}|}{} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{max_proc_result[1]}} & \tabularnewline \hhline{~|--|--|--|~}
+
+% Резервный комплект
+& \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{kits[1]}} & \tabularnewline \hhline{~|--|--|--|-}
+
+%% for step in range(check_power_max[1] | length)
+& \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{channel[0]}\VAR{step+1}} & \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{check_power_max[1][step]}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{telemetry_max[0][step]}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{fall_channel_max[1][step]}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep_max[1][step]}}} \tabularnewline \hhline{~|--|--|--|-} 
+%% endfor
+
+% Максимальный процент по всем линиям при проверке 4 А на 4 линии
+& \multicolumn{3}{C{\VAR{w2_5}}|}{\VAR{names_of_headers2[2]}} & \multicolumn{1}{C{\VAR{w3_6}}|}{Измерено} & \tabularnewline \hhline{~|~~|~-|--|~}
+
+& \multicolumn{3}{C{\VAR{w2_5}}|}{} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{max_proc_result[2]}} &

@@ -1,0 +1,17 @@
+{
+	// Используйте IntelliSense, чтобы узнать о возможных атрибутах.
+	// Наведите указатель мыши, чтобы просмотреть описания существующих атрибутов.
+	// Для получения дополнительной информации посетите: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Python: текущий файл",
+			"type": "python",
+			"request": "launch",
+			"program": "${file}",
+			"args": ["C:/avs/tgen/tex/KPA.tex", "C:/avs/tgen/tex/KPA.gen.tex", "C:/avs/tgen/in/Main_20GK-01_[02.02.2023][12 31 52].xml"],
+			"console": "integratedTerminal",
+			"justMyCode": true
+		}
+	]
+}

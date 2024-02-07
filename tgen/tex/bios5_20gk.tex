@@ -1,0 +1,45 @@
+% Проверка тракта выдачи напряжения на шины питания потребителей.
+
+% Получение подшагов
+%% set substeps = e.get_substeps(step, 'NumericLimitTest', 'Main')
+
+% Получение статуса шага
+%% set status = h.translate_en_to_ru(e.get_step_status(step))
+
+% Заголовок 
+\multicolumn{1}{|C{\VAR{w4}}|}{\VAR{current_step_name[0]}} & \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{current_step_name[1]}} &  \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status}}} \\
+
+
+
+% Списки для дальнейшего заполнения таблиц
+%% set results = []
+%% set status_substep = []
+%% set names_headers = ['Длительность импульса напряжения', 'Измерено (мс)', 'Допустимое значение (мс)']
+%% set kits = ['Основной комплект', 'Резервный комплект']
+
+% Вычисление результатов
+%% for step in substeps:
+%% set test = e.get_first_attribute(step, 'name')
+%% if test == 'Check Pulse Duration':
+%% set dump = results.append(e.get_numeric_limit(step, prec=0))
+%% set dump = status_substep.append(h.translate_en_to_ru(e.get_step_status(step)))
+%% endif
+%% endfor
+
+% Шапка
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{\VAR{w2_3}}|}{\VAR{names_headers[0]}} & \multicolumn{2}{C{\VAR{w6_7}}|}{\VAR{names_headers[1]}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{names_headers[2]}} & \tabularnewline 
+
+% Основной комплект
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{\VAR{w2_3}}|}{\multirow{2}{20mm}{\centering \VAR{kits[0]}}} & \multicolumn{2}{C{\VAR{w6_7}}|}{\VAR{results[0]['result']}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{results[0]['lo']} ÷ \VAR{results[0]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0]}}} \tabularnewline 
+
+\hhline{~|~~|--|--|-}
+&  & \multicolumn{2}{C{\VAR{w6_7}}|}{\VAR{results[1]['result']}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{results[1]['lo']} ÷ \VAR{results[1]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[1]}}} \tabularnewline 
+
+% Резервный комплект 
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{\VAR{w2_3}}|}{\multirow{2}{20mm}{\centering \VAR{kits[1]}}} & \multicolumn{2}{C{\VAR{w6_7}}|}{\VAR{results[2]['result']}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{results[2]['lo']} ÷ \VAR{results[2]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[2]}}} \tabularnewline 
+
+\hhline{~|~~|--|--|-}
+&  & \multicolumn{2}{C{\VAR{w6_7}}|}{\VAR{results[3]['result']}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{results[3]['lo']} ÷ \VAR{results[3]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[3]}}} \tabularnewline 

@@ -1,0 +1,274 @@
+\documentclass[12pt,a4paper]{report}
+% Русский язык
+\usepackage[english, russian]{babel}
+\usepackage{fontspec}	% пакет для компилятора XeLaTeX и LuaLaTeX
+
+\usepackage[left=1.00cm, right=1.00cm, top=2.00cm, bottom=2.00cm]{geometry} % Макет документа
+\usepackage{etex}
+\usepackage{array} % для расширения возможностей построения таблиц
+\usepackage{longtable} % для построения таблиц
+\usepackage{multirow} % для рисования таблиц (объединение строк по вертикали)
+\usepackage{hhline}	% для рисования горизонтальных линий таблиц
+\usepackage{setspace} % пробел между линиями
+\usepackage{longtable} % длинные таблицы
+
+% Математика 
+\usepackage{mathtext}
+\usepackage{makeidx}
+
+% Графики
+% \usepackage{tikz}
+% \usepackage{tikzexternal}
+\usepackage{pgfplots} % основной
+
+% Заголовок таблицы
+\usepackage{caption}
+\captionsetup{justification = raggedright, singlelinecheck = false}
+
+% включение шрифта Times New Roman
+\renewcommand{\rmdefault}{ftm} 
+\setmainfont{Times New Roman} % шрифт Times New Roman при подключении пакета fontspec
+
+\hyphenpenalty=10000 % запрет на автоматический перенос слов с расширением текущей строки
+
+% объявление нового типа колонки
+\newcolumntype{C}[1]{>{\centering}m{#1}} % добавления возможности форматирования текста по центру в таблицах
+\newcommand{\VAR}[1]{} % объявление для латеха команды содержащей переменную
+\newcommand{\BLOCK}[1]{} % объявление для латеха команды содержащей блок
+
+\begin{document}
+	% объявление количества табличных строк, размещаемых на одной странице
+	% 48 строк было раньше, но они иногда не вмещались
+	%% set total_count_of_rows = 47
+	% объявление количества символов в одной строке в шести объединённых центральных клетках таблицы
+	%% set count_of_symbols_in_central_row = 60
+	% объявление количества символов в одной строке в двух объединённых столбцах под номерами 2 и 3 (нумерация с 1)
+	%% set count_of_symbols_in_2_3_columns = 26
+	% объявление количества символов во втором столбце
+	%% set count_of_symbols_in_second_column = 13
+	% ширина для объединённых колонок 2 и 3
+	%% set w2_3 = '57.375mm'
+	%% set w2_5 = '96.245mm'
+	%% set w3_5 = '63.685mm'
+	%% set w4_5 = '34.875mm'
+	%% set w6_7 = '37.25mm'
+	%% set w4_7 = '76.125mm'
+	%% set w2_6 = '141mm'
+	%% set w2_7 = '137.75mm'
+	%% set w3_7 = '105.44mm'
+	%% set w3 = '28.06mm'
+	%% set w4 = '10.185mm'
+	%% set w3_6 = '35mm'
+	%% set w2 = '16.5mm'
+	%% set w2_4 = '26.5mm'
+	%% set w4_1 = '25mm'
+	%% set w5 = w4
+	% объявление номера текущей строки
+	%% set ns = namespace(number_of_rows = 0, one_header='', count_of_share_rows = 0, global_counter = 0)
+	
+	% считывание данных из нового файла
+	%% set dump = e.set_node(list_of_reports[0])
+	%% set number_of_test = e.get_uut_serial_number()
+	%% set device = 'Прибор'
+	%% set date = h.exist_result(h.clean_date(e.get_start_time()))
+	%% set defaults_header = h.get_header(0)
+%	\begin{spacing}{1.3}
+%		\fontsize{14pt}{\baselineskip}\selectfont
+%		\pagestyle{empty} % страница без номера
+%		\setcounter{page}{1} % счетчик страницы
+%		\begin{center}
+%			ПРОТОКОЛ \\
+%			самопроверки
+%			КПА БИОС \\
+%			ЖКНЮ.***
+%			\vspace{2em plus .6em minus .5em}\\
+%			
+%			Листов
+%			\clearpage
+%		\end{center}
+%	\end{spacing}
+	\begin{center}
+		\begin{spacing}{1.3}
+			\setcounter{page}{1}
+			\fontsize{14pt}{\baselineskip}\selectfont
+			%% set words = defaults_header['head1'].split()
+			%% include('HeaderDWNT.tex') 
+			\textbf{\VAR{ns.one_header}}
+			
+			%% set words = defaults_header['gk'].split()
+			%% include('HeaderDWNT.tex') 
+			\textbf{\VAR{ns.one_header}}
+						
+			%% set words = defaults_header['head2'].split()
+			%% include('HeaderDWNT.tex')
+			\textbf{\VAR{ns.one_header}}
+			
+			%% set words = defaults_header['head3'].split()
+			%% include('HeaderDWNT.tex')
+			\textbf{\VAR{ns.one_header}}
+			
+			%% set words = defaults_header['date'].split()
+			%% include('HeaderDWNT.tex')
+			\textbf{\VAR{ns.one_header}}
+
+		\end{spacing}
+	\end{center}
+
+	% 20 ГК
+	\begin{center}
+	%% if list_of_gk[0] == '20GK'
+	\label{:1}
+	%% set steps = e.get_steps('trc:TestResults/tr:ResultSet', 'SequenceCall', 'Main')
+	%% set dump = e.sort_list_of_steps(steps)
+	%% set ns.number_of_rows = 8 + 0
+	% set head_of_tabular = '\\begin{longtable}{|C{11mm}|C{28mm}|C{25mm}|*{2}{C{15mm}|}C{14mm}|C{19mm}|C{29mm}|} \\hline\n№ & \\multicolumn{6}{C{' + w2_7 + '}|}{Проверка} & Результат \\tabularnewline \\hline'
+	
+	%% for step in steps:
+	%% set step_status = h.exist_result(e.get_step_status(step))
+	%% set step_name = h.exist_result(e.get_step_name(step))
+	%% set number = h.number_of_step(step_name)
+	
+	% Разделения имени шага на его номер и название
+	%% set current_step_name = h.split_name(step_name)
+	
+	%% if number != '19' and number != '12' and step_status != 'Пропущено' and step_status != 'Не запускалась' and step_status != 'Прервана'
+	\begin{longtable}{|C{11mm}|C{28mm}|C{25mm}|*{2}{C{15mm}|}C{14mm}|C{19mm}|C{29mm}|}
+		\caption{} \\ % Делаемглавную шапку таблицы. Она будет одна и не должна повторяться
+		\hline
+		\multicolumn{1}{|C{\VAR{w4}}|}{№} & \multicolumn{4}{C{\VAR{w2_7}}|}{Проверка} & \multicolumn{1}{C{\VAR{w3}}|}{Результат} \\
+		\hline
+		\endfirsthead
+		\multicolumn{6}{l} % объединение колонок
+		{\tablename\ \thetable\ -- \textit{Перенос с предыдущей страницы}} \\
+		\hline
+		\multicolumn{1}{|C{\VAR{w4}}|}{№} & \multicolumn{4}{C{\VAR{w2_7}}|}{Проверка} & \multicolumn{1}{C{\VAR{w3}}|}{Результат} \\ 
+		\hline % Название колонок таблицы на каждой новой странице
+		\endhead
+		\hline % Линия в конце страницы под таблицей
+		\multicolumn{6}{r}{\textit{Продолжение на следующей странице}} \\ % Подпись таблицы (справа в данном случае, т.к. {r}) в конце каждой страницы 
+		\endfoot % окончание каждой страницы кроме последней
+		\hline
+		\endlastfoot % окончание последней страницы
+		%% include ('bios' + number + '_20gk.tex')
+	\end{longtable}
+	%% endif
+	
+	%% if (number == '19' or number == '12') and step_status != 'Пропущено' and step_status != 'Не запускалась' and step_status != 'Прервана'
+		%% include ('bios' + number  + '_20gk' + '.tex')
+	%% endif
+	%% endfor
+	\newpage
+	\noindent
+	%% endif
+	\end{center}
+
+	% 50 ГК
+	\begin{center}
+	%% if list_of_gk[0] == '50GK'
+	\label{:1}
+	%% set steps = e.get_steps('trc:TestResults/tr:ResultSet', 'SequenceCall', 'Main')
+	%% set dump = e.sort_list_of_steps(steps)
+	%% set ns.number_of_rows = 8 + 0
+	% set head_of_tabular = '\\begin{longtable}{|C{11mm}|C{28mm}|C{25mm}|*{2}{C{15mm}|}C{14mm}|C{19mm}|C{29mm}|} \\hline\n№ & \\multicolumn{6}{C{' + w2_7 + '}|}{Проверка} & Результат \\tabularnewline \\hline'
+	
+	%% for step in steps:
+	%% set step_status = h.exist_result(e.get_step_status(step))
+	%% set step_name = h.exist_result(e.get_step_name(step))
+	%% set number = h.number_of_step(step_name)
+	
+	% Разделения имени шага на его номер и название
+	%% set current_step_name = h.split_name(step_name)
+	
+	%% if number != '19' and number != '12' and step_status != 'Пропущено' and step_status != 'Не запускалась' and step_status != 'Прервана'
+	\begin{longtable}{|C{11mm}|C{28mm}|C{25mm}|*{2}{C{15mm}|}C{14mm}|C{19mm}|C{29mm}|}
+		\caption{} \\ % Делаемглавную шапку таблицы. Она будет одна и не должна повторяться
+		\hline
+		\multicolumn{1}{|C{\VAR{w4}}|}{№} & \multicolumn{4}{C{\VAR{w2_7}}|}{Проверка} & \multicolumn{1}{C{\VAR{w3}}|}{Результат} \\
+		\hline
+		\endfirsthead
+		\multicolumn{6}{l} % объединение колонок
+		{\tablename\ \thetable\ -- \textit{Перенос с предыдущей страницы}} \\
+		\hline
+		\multicolumn{1}{|C{\VAR{w4}}|}{№} & \multicolumn{4}{C{\VAR{w2_7}}|}{Проверка} & \multicolumn{1}{C{\VAR{w3}}|}{Результат} \\ 
+		\hline % Название колонок таблицы на каждой новой странице
+		\endhead
+		\hline % Линия в конце страницы под таблицей
+		\multicolumn{6}{r}{\textit{Продолжение на следующей странице}} \\ % Подпись таблицы (справа в данном случае, т.к. {r}) в конце каждой страницы 
+		\endfoot % окончание каждой страницы кроме последней
+		\hline
+		\endlastfoot % окончание последней страницы
+		%% include ('bios' + number + '_50gk.tex')
+	\end{longtable}
+	%% endif
+	
+	%% if (number == '19' or number == '12') and step_status != 'Пропущено' and step_status != 'Не запускалась' and step_status != 'Прервана'
+		%% include ('bios' + number  + '_50gk' + '.tex')
+	%% endif
+	%% endfor
+	\newpage
+	\noindent
+	%% endif
+	\end{center}
+	
+%	\begin{center}	
+%	\begin{minipage}{0.35\textwidth}
+%		\begin{center}
+%			
+%			(Начальник ЭП)
+%		\end{center}
+%	\end{minipage}\hfill
+%	\begin{minipage}{0.15\textwidth}
+%		\begin{center}
+%			\rule[-1.8mm]{2.5cm}{.1mm}
+%
+%			подпись
+%		\end{center}
+%	\end{minipage}\hfill
+%	\begin{minipage}{0.35\textwidth}
+%		\begin{center}
+%			\rule[-1.8mm]{5cm}{.1mm}
+%			
+%			инициалы, фамилия
+%		\end{center}
+%	\end{minipage}\hfill
+%	\begin{minipage}{0.15\textwidth}
+%		\begin{center}
+%			\rule[-1.8mm]{2.5cm}{.1mm}
+%			
+%			дата
+%		\end{center}
+%	\end{minipage}\vspace{3em plus 1.1em minus .8em}
+%	
+%	\noindent
+%	\begin{minipage}{0.35\textwidth}
+%		\begin{center}
+%			 В.П.
+%			
+%			(Начальник лаборатории)
+%		\end{center}
+%	\end{minipage}\hfill
+%	\begin{minipage}{0.15\textwidth}
+%		\begin{center}
+%			\rule[-1.8mm]{2.5cm}{.1mm}
+%			
+%			подпись
+%		\end{center}
+%	\end{minipage}\hfill
+%	\begin{minipage}{0.35\textwidth}
+%		\begin{center}
+%			\rule[-1.8mm]{5cm}{.1mm}
+%			
+%			инициалы, фамилия
+%		\end{center}
+%	\end{minipage}\hfill
+%	\begin{minipage}{0.15\textwidth}
+%		\begin{center}
+%			\rule[-1.8mm]{2.5cm}{.1mm}
+%			
+%			дата
+%		\end{center}
+%	\end{minipage}
+%	\label{p:1}
+%	\pagestyle{empty}	
+%	\end{center}
+\end{document}

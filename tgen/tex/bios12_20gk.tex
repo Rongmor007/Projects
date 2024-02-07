@@ -1,0 +1,105 @@
+% Проверка установления порогового значения тока, ограничения тока при КЗ и проверка времени реакции БИОС на превышение заданного значения тока в цепи питания потребителя.
+
+\begin{longtable}{|C{11mm}|C{28mm}|C{25mm}|*{2}{C{15mm}|}C{14mm}|C{19mm}|C{29mm}|}
+	\caption{} \\ % Делаемглавную шапку таблицы. Она будет одна и не должна повторяться
+	\hline
+	\multicolumn{1}{|C{\VAR{w4}}|}{№} & \multicolumn{6}{C{\VAR{w2_7}}|}{Проверка} & \multicolumn{1}{C{\VAR{w3}}|}{Результат} \\
+	\hline
+	\endfirsthead
+	\multicolumn{8}{l} % объединение колонок
+	{\tablename\ \thetable\ -- \textit{Перенос с предыдущей страницы}} \\
+	\hline
+	\multicolumn{1}{|C{\VAR{w4}}|}{№} & \multicolumn{6}{C{\VAR{w2_7}}|}{Проверка} & \multicolumn{1}{C{\VAR{w3}}|}{Результат} \\  
+	\hline % Название колонок таблицы на каждой новой странице
+	\endhead
+	\hline % Линия в конце страницы под таблицей
+	\multicolumn{8}{r}{\textit{Продолжение на следующей странице}} \\ % Подпись таблицы (справа в данном случае, т.к. {r}) в конце каждой страницы 
+	\endfoot % окончание каждой страницы кроме последней
+	\hline
+	\endlastfoot % окончание последней страницы
+	
+	% получение всех шагов главной последовательности
+	%% set substeps = e.get_substeps(step, 'NumericLimitTest', 'Main')
+	
+	% Получение статуса шага
+	%% set status = h.translate_en_to_ru(e.get_step_status(step))
+	
+	% Заголовок 
+	\multicolumn{1}{|C{\VAR{w4}}|}{\VAR{current_step_name[0]}} & \multicolumn{6}{C{\VAR{w2_7}}|}{\VAR{current_step_name[1]}} &  \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status}}} \\
+	
+	% Списки для дальнейшего заполнения таблицы для Макс тока при КЗ
+	%% set Check_power = []
+	%% set Step_name = []
+	%% set Name_of_sub_step = []
+	%% set status_substep = []
+	%% set Low_limits = []
+	%% set High_limits = []
+	%% set Limits_check = []
+	%% set time_react_lim_hi = []
+	%% set time_react_lim_lo = []
+	
+	% Списки для таблицы Время реакции на КЗ
+	%% set time_react = []
+	%% set status_react = []
+	
+	%% set kits = ['Осн', 'Рез', 'Допустимое значение']
+	%% set names_headers = ['Значение ограничения тока при КЗ (А)', 'Время реакции на КЗ (мс)']
+	%% set tires = ['K17', 'K18', 'K21', 'K22', 'K23', 'K24']
+	%% set type_tire = ['2-й тип', '2-й тип', '3-й тип', '3-й тип', '3-й тип', '3-й тип']
+	
+	%% for step in substeps:
+	
+	%% set sub_step_name = e.get_step_name(step)
+	%% set child_elem = e.get_child_elements_by_tag_name(step, 'tr:TestResult')
+	%% set subs = [step]
+	%% set limits = e.get_numeric_limits(subs, (e.get_step_name(step)))
+	
+	% Значение ограничения тока при КЗ
+	%% if sub_step_name == 'Check Current':
+		%% set dump = Limits_check.append(limits)
+		%% set dump = Step_name.append(e.get_step_name(step))
+		% Данные измерения
+		%% set dump = Check_power.append(limits[0]['result'])
+		% Результат проверки
+		%% set dump = status_substep.append(h.translate_en_to_ru(e.get_step_status(step)))
+		% Нижний лимит
+		%% set dump = Low_limits.append(limits[0]['lo'])
+		% Верхний лимит
+		%% set dump = High_limits.append(limits[0]['hi'])
+	%% endif
+	
+	% Время реакции на КЗ
+	%% if sub_step_name == 'Check Pulse Duration':
+		%% set dump = time_react.append(limits[0]['result'])
+		%% set dump = status_react.append(h.translate_en_to_ru(e.get_step_status(step)))
+		%% set dump = time_react_lim_hi.append(limits[0]['hi'])
+		%% set dump = time_react_lim_lo.append(limits[0]['lo'])
+	%% endif
+
+	%% endfor
+	
+	% Разбивание результатов для 2 и 3 типа шинах
+	%% set Check_power = h.power_for_kits(Check_power, key=1)
+	%% set Check_power = [Check_power[0][-6:], Check_power[1][-6:]]
+	%% set time_react = h.power_for_kits(time_react, key=1)
+	%% set time_react = [time_react[0][-6:], time_react[1][-6:]]
+	%% set status_substep = h.power_for_kits(status_substep, key=1)
+	%% set status_substep = [status_substep[0][-6:], status_substep[1][-6:]]
+	%% set status_react = h.power_for_kits(status_react, key=1)
+	%% set status_react = [status_react[0][-6:], status_react[1][-6:]]
+
+	% Шапка
+	\hhline{~|--|--|--|-}
+	& \multicolumn{3}{C{57.5mm}|}{} & \multicolumn{1}{C{16mm}|}{\VAR{kits[0]}} & \multicolumn{1}{C{16mm}|}{\VAR{kits[1]}} & \multicolumn{1}{C{35mm}|}{\VAR{kits[2]}} & \multicolumn{1}{C{25.06mm}|}{} \tabularnewline
+	
+	% 4.1 - 4.6
+	% 2-й тип
+	%% for step in range(Check_power[0] | length)
+	\hhline{~|--|--|--|-}
+	& \multicolumn{2}{C{30mm}|}{\VAR{names_headers[0]}} & \multicolumn{1}{C{20mm}|}{\multirow{3}{15mm}{\centering \VAR{tires[step]} \\ \VAR{type_tire[step]}}} & \multicolumn{1}{C{16mm}|}{\VAR{Check_power[0][step]}} & \multicolumn{1}{C{16mm}|}{\VAR{Check_power[1][step]}} & \multicolumn{1}{C{35mm}|}{\VAR{Low_limits[0]} ÷ \VAR{High_limits[0]}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0][step]} \VAR{status_substep[1][step]}}} \tabularnewline
+	
+	\hhline{~|--|~-|--|-}
+	& \multicolumn{2}{C{30mm}|}{\VAR{names_headers[1]}} &  & \multicolumn{1}{C{16mm}|}{\VAR{time_react[0][step]}} & \multicolumn{1}{C{16mm}|}{\VAR{time_react[1][step]}} & \multicolumn{1}{C{35mm}|}{\VAR{time_react_lim_lo[0]} ÷ \VAR{time_react_lim_hi[0]}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_react[0][step]} \VAR{status_react[1][step]}}} \tabularnewline
+	%% endfor
+	
+\end{longtable}

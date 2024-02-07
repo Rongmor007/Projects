@@ -1,0 +1,54 @@
+% Проверка загрузочного ПО БИОС
+
+% Получение подшагов последовательности
+%% set substeps = e.get_substeps(step, 'NumericLimitTest', 'Main')
+
+% Получение статуса шага
+%% set status = h.translate_en_to_ru(e.get_step_status(step))
+
+% Заголовок 
+\multicolumn{1}{|C{\VAR{w4}}|}{\VAR{current_step_name[0]}} & \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{current_step_name[1]}} &  \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status}}} \\
+
+% Списки для заполнения таблицы
+%% set results = []
+%% set status_substep = []
+%% set kits = ['Основной комплект', 'Резервный комплект']
+%% set names_headers = ['Измерено', 'Допустимое значение']
+%% set names = ['Амплитуда (В)', 'Длительность импульсов (мкс)']
+
+% Вычисление результатов
+%% for step in substeps:
+%% set dump = results.append(e.get_numeric_limit(step, prec=2))
+%% set temp_status = e.get_step_status(step)
+%% set dump = status_substep.append(temp_status)
+%% endfor
+
+% Перевод статусов
+%% set status_substep = h.status_of_substeps(status_substep, key = 0)
+
+% Разбитие по комплектам
+%% set results = h.power_for_kits(results, key = 1)
+%% set status_substep = h.power_for_kits(status_substep, key=1)
+
+% Шапка
+\hhline{~|--|--|--|-}
+& \multicolumn{2}{C{78mm}|}{} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{names_headers[0]}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{names_headers[1]}} & \tabularnewline
+
+% Основной комплект
+% Амплитуда
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{30mm}|}{\VAR{kits[0]}} & \multicolumn{1}{C{40mm}|}{\VAR{names[0]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[0][0]['result']}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{results[0][0]['lo']} ÷ \VAR{results[0][0]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0][0]}}} \tabularnewline
+
+% Длительность импульсов
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{30mm}|}{\VAR{kits[0]}} & \multicolumn{1}{C{40mm}|}{\VAR{names[1]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[0][1]['result']}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{results[0][1]['lo']} ÷ \VAR{results[0][1]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0][1]}}} \tabularnewline
+
+
+% Резервный комплект
+% Амплитуда
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{30mm}|}{\VAR{kits[1]}} & \multicolumn{1}{C{40mm}|}{\VAR{names[0]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[1][0]['result']}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{results[1][0]['lo']} ÷ \VAR{results[0][1]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[1][0]}}} \tabularnewline
+
+% Длительность импульсов
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{30mm}|}{\VAR{kits[1]}} & \multicolumn{1}{C{40mm}|}{\VAR{names[1]}} & \multicolumn{1}{C{\VAR{w2}}|}{\VAR{results[1][1]['result']}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{results[1][1]['lo']} ÷ \VAR{results[1][1]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[1][1]}}} \tabularnewline

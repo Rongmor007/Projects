@@ -1,0 +1,12 @@
+1. pyparsing
+2. pillow
+3. packaging
+4. kiwisolver
+5. fonttools
+6. cycler
+7. contourpy
+8. six
+9. termcolor
+10. fire
+11. numpy
+12. matplotlib

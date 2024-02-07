@@ -1,0 +1,5 @@
+# Добавлен в игнор __pycache__
+/out
+out
+/doc
+soc

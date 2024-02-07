@@ -1,0 +1,8 @@
+1. six
+2. termcolor
+3. fire
+4. numpy
+5. tzdata
+6. pytz
+7. python_dateutil
+8. pandas

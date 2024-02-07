@@ -1,0 +1,50 @@
+% Проверки собственного потребления БИОС при отсутствии тока в цепях питания нагрузки.
+% print (number)
+% print(step_name)
+
+% получение всех шагов главной последовательности
+%% set substeps = e.get_substeps(step, 'NumericLimitTest', 'Main')
+
+% Получение статуса шага
+%% set status = h.translate_en_to_ru(e.get_step_status(step))
+
+% Заголовок 
+\multicolumn{1}{|C{\VAR{w4}}|}{\VAR{current_step_name[0]}} & \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{current_step_name[1]}} &  \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status}}} \\
+
+% Списки для дальнейшего заполнения таблицы
+%% set Check_power = []
+%% set Name_of_sub_step = ['Потребление БИОС в режиме, когда напряжение на шинах питания присутствует, при отключенной нагрузке']
+%% set Status_substep = []
+%% set Limits_check = []
+%% set kits = ['Основной комплект', 'Резервный комплект']
+
+% prec - сколько знаков после запятой оставить
+%% set prec = 2
+%% set len_of_rows = [2]
+%% set len = len_of_rows|length
+
+%% for step in substeps
+%% set subs = [step]
+%% set limits = e.get_numeric_limits(subs, (e.get_step_name(step)))
+% Имя подшага проверки
+% set dump = Name_of_sub_step.append(e.get_step_name(step))
+% Данные измерения
+%% set dump = Check_power.append(limits[0]['result'])
+% Результат проверки
+%% set dump = Status_substep.append(h.translate_en_to_ru(e.get_step_status(step)))
+% Предельный лимит
+%% set dump = Limits_check.append(limits[0]['lo'])
+%% endfor
+
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{\VAR{w2_3}}|}{\multirow{5}{50mm}{\centering \VAR{Name_of_sub_step[0]}}} & \multicolumn{2}{C{\VAR{w6_7}}|}{Измерено (Вт)} & \multicolumn{1}{C{\VAR{w3_6}}|}{Допустимое значение (Вт)} & \tabularnewline \hhline{~|~~|--|--|~}
+
+% Основной комплект
+& \multicolumn{1}{C{\VAR{w2_3}}|}{} & \multicolumn{3}{C{\VAR{w4_7}}|}{\VAR{kits[0]}} & \tabularnewline \hhline{~|~~|--|--|-}
+
+& \multicolumn{1}{C{\VAR{w2_3}}|}{} & \multicolumn{2}{C{\VAR{w6_7}}|}{\VAR{Check_power[0]}} & \multicolumn{1}{C{\VAR{w3_6}}|}{<= {\VAR{Limits_check[0]}}} &  \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{Status_substep[0]}}} \tabularnewline \hhline{~|~~|--|--|-}
+
+% Резервный комплект
+& \multicolumn{1}{C{\VAR{w2_3}}|}{} & \multicolumn{3}{C{\VAR{w4_7}}|}{\VAR{kits[1]}} & \tabularnewline \hhline{~|~~|--|--|-}
+
+& \multicolumn{1}{C{\VAR{w2_3}}|}{} &  \multicolumn{2}{C{\VAR{w6_7}}|}{\VAR{Check_power[1]}} & \multicolumn{1}{C{\VAR{w3_6}}|}{<= {\VAR{Limits_check[1]}}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{Status_substep[1]}}} \tabularnewline

@@ -1,0 +1,31 @@
+% файл для формирования строк заголовка отчёта
+%% set ns.one_header = ' '
+%% for word in words
+	%% if word == '%serialNumber'
+		%% if number_of_test != ''
+			%% set ns.one_header = ns.one_header + '№' + number_of_test
+		%% else
+			%% set ns.one_header = ns.one_header + '№' + '---'
+		%% endif
+	%% elif word == '%device'
+		%% set ns.one_header = ns.one_header + device
+	%% elif word == '%gk'
+		%% if list_of_gk[0] == '20GK'
+			%% set ns.one_header = ns.one_header + '20ГК.Б1.20Ю005'
+		%% elif list_of_gk[0] == '50GK'
+			%% set ns.one_header = ns.one_header + '50ГК.КМ.20Ю005'
+		%% endif
+	%% elif word == '%date'
+		%% if date != ''
+			%% set ns.one_header = ns.one_header + date|string
+		%% else
+			%% set ns.one_header = ns.one_header + '---'
+		%% endif
+	%% else
+		%% set ns.one_header = ns.one_header + word
+	%% endif
+	%% if loop.index0 != words|length - 1
+		%% set ns.one_header = ns.one_header + ' '
+		
+	%% endif
+%% endfor

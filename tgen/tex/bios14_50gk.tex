@@ -1,0 +1,104 @@
+% Проверка работоспособности линий аналоговых датчиков
+
+% получение всех шагов главной последовательности
+%% set substeps = e.get_substeps(step, 'NumericLimitTest', 'Main')
+
+% Получение статуса шага
+%% set status = h.translate_en_to_ru(e.get_step_status(step))
+
+% Заголовок 
+\multicolumn{1}{|C{\VAR{w4}}|}{\VAR{current_step_name[0]}} & \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{current_step_name[1]}} &  \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status}}} \\
+
+% Списки для дальнейшего заполнения таблицы
+%% set kits = ['Основной комплект', 'Резервный комплект']
+%% set names_of_headers = ['Ток в цепях аналоговых температурных датчиков', 'Цепь №', 'Измерено (мА)', 'Допустимое значение (мА)', 'Показания аналаговых температурных датчиков С']
+%% set names_of_headers2 = ['Датчик №', 'Измерено (°C)', 'Допустимое значение (°C)']
+%% set channels = ['T1', 'T2']
+%% set chains = ['10', '15']
+
+%% set prec = 2
+
+% Списки с результатами
+%% set results = []
+%% set status_substep = []
+%% set status_substep_chains = []
+
+% Вычисление результатов для цепей (2-е первые проверки)
+%% set chain1 = e.get_numeric_limit(substeps[0])
+%% set chain2 = e.get_numeric_limit(substeps[1])
+
+% Вычисление результатов для цепей комплектных
+%% for step in substeps[2:]:
+%% set dump = results.append(e.get_numeric_limit(step))
+%% set temp_status = e.get_step_status(step)
+%% set dump = status_substep.append(temp_status)
+%% endfor
+
+% Для объединения строк
+%% set row = results | length
+
+% Разбиение результатов на два комплекта
+%% set results = h.power_for_kits(results, key = 1)
+
+% Вычисление результатов для первых 2-х цепей
+%% for step in substeps[:2]:
+%% set temp_status = e.get_step_status(step)
+%% set dump = status_substep_chains.append(temp_status)
+%% endfor
+
+%% set status_substep_chains = h.status_of_substeps(status_substep_chains, key = 0)
+%% set status_substep = h.status_of_substeps(status_substep, key = 0)
+
+% Разбиение статусов на два комплекта
+%% set status_substep = h.power_for_kits(status_substep, key = 1)
+
+% Шапка
+\hhline{~|--|--|--|-}
+& \multicolumn{1}{C{\VAR{w2_4}}|}{\multirow{3}{\VAR{w4_1}}{\centering \VAR{names_of_headers[0]}}} & \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{names_of_headers[1]}} & \multicolumn{1}{C{\VAR{w6_7}}|}{\VAR{names_of_headers[2]}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{names_of_headers[3]}} & \tabularnewline
+
+% Пустая строка
+& \multicolumn{1}{C{\VAR{w2_4}}|}{} & \multicolumn{1}{C{\VAR{w2_4}}|}{} & \multicolumn{1}{C{\VAR{w6_7}}|}{} & \multicolumn{1}{C{\VAR{w3_6}}|}{} & \tabularnewline
+
+% Цепь 10
+\hhline{~|~-|--|--|-}
+& \multicolumn{1}{C{\VAR{w2_4}}|}{} & \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{chains[0]}} & \multicolumn{1}{C{\VAR{w6_7}}|}{\VAR{chain1['result']}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{chain1['lo']} ÷ \VAR{chain1['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep_chains[0]}}} \tabularnewline
+
+% Цепь 15
+\hhline{~|~-|--|--|-}
+& \multicolumn{1}{C{\VAR{w2_4}}|}{} & \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{chains[1]}} & \multicolumn{1}{C{\VAR{w6_7}}|}{\VAR{chain2['result']}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{chain2['lo']} ÷ \VAR{chain2['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep_chains[1]}}} \tabularnewline
+
+% Шапка для показаний температурных датчиков
+\hhline{~|~-|--|--|-}
+&  & \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{names_of_headers2[0]}} & \multicolumn{1}{C{\VAR{w6_7}}|}{\VAR{names_of_headers2[1]}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{names_of_headers2[2]}} & \tabularnewline
+
+% Основной комплект
+\hhline{~|--|--|--|-}
+& \multirow{\VAR{row // 2}}{\VAR{w4_1}}{\centering \VAR{names_of_headers[4]}} & \multicolumn{3}{C{\VAR{w3_7}}|}{\VAR{kits[0]}} & \tabularnewline
+
+% Для T1
+%% for step in range(results[0] | length // 2)
+\hhline{~|~-|--|--|-}
+& \multicolumn{1}{C{\VAR{w2_4}}|}{} & \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{channels[0]}} & \multicolumn{1}{C{\VAR{w6_7}}|}{\VAR{results[0][step]['result']}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{results[0][step]['lo']} ÷ \VAR{results[0][step]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0][step]}}} \tabularnewline
+%% endfor
+
+% Для T2
+%% for step in range(results[0] | length // 2, results[0] | length)
+\hhline{~|~-|--|--|-}
+& \multicolumn{1}{C{\VAR{w2_4}}|}{} & \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{channels[1]}} & \multicolumn{1}{C{\VAR{w6_7}}|}{\VAR{results[0][step]['result']}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{results[0][step]['lo']} ÷ \VAR{results[0][step]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[0][step]}}} \tabularnewline
+%% endfor
+
+% Резервный комплект
+\hhline{~|~-|--|--|-}
+& \multicolumn{1}{C{\VAR{w2_4}}|}{} & \multicolumn{3}{C{\VAR{w3_7}}|}{\VAR{kits[1]}} & \tabularnewline
+
+% Для T1
+%% for step in range(results[1] | length // 2)
+\hhline{~|~-|--|--|-}
+& \multicolumn{1}{C{\VAR{w2_4}}|}{} & \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{channels[0]}} & \multicolumn{1}{C{\VAR{w6_7}}|}{\VAR{results[1][step]['result']}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{results[1][step]['lo']} ÷ \VAR{results[1][step]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[1][step]}}}\tabularnewline
+%% endfor
+
+% Для T2
+%% for step in range(results[1] | length // 2, results[1] | length)
+\hhline{~|~-|--|--|-}
+& \multicolumn{1}{C{\VAR{w2_4}}|}{} & \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{channels[1]}} & \multicolumn{1}{C{\VAR{w6_7}}|}{\VAR{results[1][step]['result']}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{results[1][step]['lo']} ÷ \VAR{results[1][step]['hi']}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status_substep[1][step]}}}\tabularnewline
+%% endfor

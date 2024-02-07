@@ -1,0 +1,111 @@
+% Проверка потребления БИОС при включенной максимально допустимой нагрузке, предельно допустимого тока в цепи питания потребителя, максимально допустимого тока в цепи первичного питания, и погрешности определения тока на шинах питания
+
+% получение всех шагов главной последовательности
+%% set substeps = e.get_substeps(step, 'NumericLimitTest', 'Main')
+
+% Получение статуса шага
+%% set status = h.translate_en_to_ru(e.get_step_status(step))
+
+% Заголовок 
+\multicolumn{1}{|C{\VAR{w4}}|}{\VAR{current_step_name[0]}} & \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{current_step_name[1]}} &  \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{status}}} \\
+
+% Списки для Потребления БИОС при максимальной нагрузке на каналы
+%% set Check_summary_power = []
+%% set Check_summary_high_limit = []
+%% set Check_summary_low_limit = []
+%% set Status_substep_sum_pwr = []
+
+% Списки для Точности измерения тока на шинах питания при равномернораспределенной по каналам допустимой нагрузке
+%% set Limits_check = []
+%% set Name_of_sub_step = []
+%% set Step_name = []
+%% set Check_power = []
+%% set Status_substep_all_kits = []
+
+% Списки с данными для дальнейшей заполнения таблицы
+%% set names_of_limits = ['Check Summary Power', 'Check LoadLine Current With DWNT TM Values', 'Check LoadLine Current with TM Values', 'DMM Measure']
+%% set kits = ['Основной комплект', 'Резервный комплект']
+%% set names_of_headers = ['Потребление БИОС при максимальной нагрузке на каналы', 'Точность измерения тока на шинах питания при максимальной нагрузке на шине', 'Точность измерения тока на шинах питания при равномерно распределенной по каналам допустимой нагрузке', 'Нагружаемые каналы']
+%% set range_of_channels = ['К1-4', 'К5-8', 'К9-12', 'К13-16', 'К17-20', 'К21-24', 'К23-26']
+%% set channel = 'K'
+%% set value_telemetry = ['0,6250']
+
+%% for step in substeps:
+%% set sub_step_name = e.get_step_name(step)
+%% set child_elem = e.get_child_elements_by_tag_name(step, 'tr:TestResult')
+%% set subs = [step]
+
+% Вытаскивание данных для Потребления БИОС при максимальной нагрузке на каналы
+%% if sub_step_name == names_of_limits[0] and e.get_value_of_attribute_by_parent_node_and_internal_path(step, 'tr:Extension/ts:TSStepProperties/ts:BlockLevel', 'value') == '2':
+%% set limits = e.get_numeric_limits(subs, (e.get_step_name(step)))
+%% set dump = Check_summary_power.append(limits[0]['result'])
+%% set dump = Check_summary_high_limit.append(limits[0]['hi'])
+%% set dump = Check_summary_low_limit.append(limits[0]['lo'])
+%% set dump = Status_substep_sum_pwr.append(e.get_step_status(step))
+%% endif
+
+% Вытаскивание данных для Точности измерения тока на шинах питания при равномернораспределенной по каналам допустимой нагрузке
+%% if sub_step_name == names_of_limits[2] and e.get_value_of_attribute_by_parent_node_and_internal_path(step, 'tr:Extension/ts:TSStepProperties/ts:BlockLevel', 'value') == '2':
+%% set limits = e.get_numeric_limits(subs, (e.get_step_name(step)))
+%% set dump = Limits_check.append(limits)
+%% set dump = Name_of_sub_step.append(e.get_step_name(child_elem[-1]))
+%% set dump = Step_name.append(h.exist_result(e.get_step_name(step)))					
+%% set dump = Check_power.append(limits[0]['result'])
+%% set dump = Status_substep_all_kits.append(e.get_step_status(step))
+%% endif
+
+%% endfor
+
+% Разделение комплектов на основной и резервный
+%% set Check_power = h.power_for_kits(Check_power, key = 1)
+% set Check_power = Check_power[0][:-2:], Check_power[1][:-2:]
+
+% Получение списков перевода статуса подшагов
+%% set Status_substep_sum_pwr = h.status_of_substeps(Status_substep_sum_pwr, key=0)
+%% set Status_substep_all_kits = h.status_of_substeps(Status_substep_all_kits, key=0)
+
+% Потребление БИОСА при макс нагрузке на каналы
+\hhline{~|--|--|--|-}
+& \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{names_of_headers[0]}} & \tabularnewline \hhline{~|--|--|--|~}
+
+% Шапка таблицы
+& \multicolumn{2}{C{\VAR{w2_3}}|}{\VAR{names_of_headers[3]}} & \multicolumn{1}{C{\VAR{w6_7}}|}{Измерено (Вт)} & \multicolumn{1}{C{\VAR{w3_6}}|}{Допустимое значение (Вт)} & \tabularnewline \hhline{~|--|--|--|~}
+
+% Основной комплект
+& \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{kits[0]}} & \tabularnewline \hhline{~|--|--|--|-}
+
+%% for step in range(Check_summary_power | length // 2 )
+& \multicolumn{2}{C{\VAR{w2_3}}|}{\VAR{range_of_channels[step]}} & \multicolumn{1}{C{\VAR{w6_7}}|}{\VAR{Check_summary_power[step]}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{Check_summary_low_limit[0]} ÷ {\VAR{Check_summary_high_limit[0]}}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{Status_substep_sum_pwr[step]}}} \tabularnewline \hhline{~|--|--|--|-}
+%% endfor
+
+% Резервный комплект
+& \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{kits[1]}} & \tabularnewline \hhline{~|--|--|--|-}
+
+%% for step in range(Check_summary_power | length // 2, Check_summary_power | length)
+& \multicolumn{2}{C{\VAR{w2_3}}|}{\VAR{range_of_channels[step - (Check_summary_power | length // 2)]}} & \multicolumn{1}{C{\VAR{w6_7}}|}{\VAR{Check_summary_power[step]}} & \multicolumn{1}{C{\VAR{w3_6}}|}{\VAR{Check_summary_low_limit[0]} ÷ {\VAR{Check_summary_high_limit[0]}}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{Status_substep_sum_pwr[step]}}} \tabularnewline \hhline{~|--|--|--|-}
+%% endfor
+
+% Точность измерения тока на шинах питания при равномерно распределенной по каналам допустимой нагрузке
+& \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{names_of_headers[2]}} & \tabularnewline \hhline{~|--|--|--|~}
+
+% Шапка
+& \multicolumn{1}{C{\VAR{w2_4}}|}{Канал} & \multicolumn{1}{C{\VAR{w2_4}}|}{Измеренный ток (А)} & \multicolumn{1}{C{\VAR{w4_5}}|}{Ток по телеметрии (А)} & \multicolumn{1}{C{\VAR{w4_5}}|}{Разница(не более 0.2 А)} & \tabularnewline \hhline{~|--|--|--|~}
+
+% Основной комплект
+& \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{kits[0]}} & \tabularnewline \hhline{~|--|--|--|-}
+
+%% for step in range(Check_power[0] | length)
+% Разница между измеренным токов и токов телеметрии
+%% set differ = h.abs_difference(Check_power[0][step], value_telemetry[0])
+& \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{channel}\VAR{step+1}} & \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{Check_power[0][step]}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{value_telemetry[0]}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{differ}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{Status_substep_all_kits[step]}}} \tabularnewline \hhline{~|--|--|--|-}
+%% endfor
+
+% Резервный комплект
+& \multicolumn{4}{C{\VAR{w2_7}}|}{\VAR{kits[1]}} & \tabularnewline \hhline{~|--|--|--|-}
+
+%% for step in range(Check_power[1] | length)
+% Разница между измеренным токов и токов телеметрии
+%% set differ = h.abs_difference(Check_power[1][step], value_telemetry[0])
+& \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{channel}\VAR{step+1}} & \multicolumn{1}{C{\VAR{w2_4}}|}{\VAR{Check_power[1][step]}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{value_telemetry[0]}} & \multicolumn{1}{C{\VAR{w4_5}}|}{\VAR{differ}} & \multicolumn{1}{C{\VAR{w3}}|}{\textbf{\VAR{Status_substep_all_kits[step]}}} \tabularnewline \hhline{~|--|--|--|-} 
+
+%% endfor

@@ -1,0 +1,10 @@
+1. lxml
+2. termcolor
+3. six
+4. fire
+6. numpy
+5. opencv
+7. fonttools
+8. python-docx
+9. pyMuPDF
+10. pdf2docx
