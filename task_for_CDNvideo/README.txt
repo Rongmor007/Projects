@@ -2,12 +2,13 @@
 1) Установить postgres
 2) Установить в него расширение postgis
 3) Создать пользователя test_user, выдать ему пароль: postgres, выдать ему роль суперюзера, создать базу данных test_db
-4) В этой базе данных создать табличку cities: CREATE TABLE cities(name varchar PRIMARY KEY, latitude real, longitude real);
-5) Прописать команду для установки в БД расширения: CREATE EXTENSION postgis; 
-6) Установить пакеты fastapi, psycopg2, geopy
-7) Установить uvicorn
+4Запуcтить приложение: uvicorn main:app
+5) Прописать команду: alembic revision --autogenerate -m 'Database creation'
+6) alembic upgrade 'версию миграции'
+7) Прописать команду для установки в БД расширения: CREATE EXTENSION postgis; 
+8) Установить пакеты fastapi, psycopg2, geopy
+9) Установить uvicorn
 
-Запуск приложения: uvicorn fst:app
 
 Примеры запросов к приложению:
 1) Добавить несколько городов:
